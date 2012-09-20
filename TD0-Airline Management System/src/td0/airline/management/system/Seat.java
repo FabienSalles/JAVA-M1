@@ -13,6 +13,12 @@ public class Seat {
     private SeatID seatNum;
     private boolean isBooked;
     
+    public Seat(SeatID id)
+    {
+        this.seatNum = id;
+        this.isBooked = false;
+    }
+    
     public SeatID getSeatNum()
     {
         return this.seatNum;
@@ -22,4 +28,10 @@ public class Seat {
     {
         return this.isBooked;
     }
+
+    public void setIsBooked(boolean isBooked) {
+        this.isBooked = isBooked;
+    }
+    
+    
 }

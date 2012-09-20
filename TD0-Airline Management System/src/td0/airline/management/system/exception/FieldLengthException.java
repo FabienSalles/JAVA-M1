@@ -8,9 +8,9 @@ package td0.airline.management.system.exception;
  *
  * @author fasalles
  */
-public class ObjectNameLengthException extends Exception
+public class FieldLengthException extends Exception
 {
-    public ObjectNameLengthException(String message)
+    public FieldLengthException(String message)
     {
         super(message);
     }

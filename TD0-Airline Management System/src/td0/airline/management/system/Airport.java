@@ -20,12 +20,18 @@ public class Airport
         return this.name;
     }
     
-    public Airport(String name) throws ObjectNameLengthException
+    /**
+     * Constructor
+     * Create Airport
+     * @param name
+     * @throws FieldLengthException 
+     */
+    public Airport(String name) throws FieldLengthException
     {
         if(name.length() == 3)
             this.name = name;
         else
-            throw new ObjectNameLengthException("The length of name of the Airport must have exactly 3 caracters");
+            throw new FieldLengthException("The length of name of the Airport must have exactly 3 caracters");
     }
 
     @Override

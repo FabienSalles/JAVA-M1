@@ -12,10 +12,10 @@ import java.util.Objects;
  */
 public class SeatID {
     
-    private Integer row;
+    private int row;
     private Character column;
     
-    public SeatID(Integer row, Character column)
+    public SeatID(int row, Character column)
     {
         this.row = row;
         this.column = column;
