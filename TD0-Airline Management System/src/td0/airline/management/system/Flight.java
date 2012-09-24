@@ -22,6 +22,14 @@ public class Flight {
     private Calendar date;
     private Set<FlightSection> flightSections;
 
+    /**
+     * Constructor
+     * @param id
+     * @param orig
+     * @param dest
+     * @param date
+     * @throws FieldLengthException 
+     */
     public Flight(String id, Airport orig, Airport dest, Calendar date) throws FieldLengthException
     {
         if(id.length() <= 5 ){
@@ -36,6 +44,10 @@ public class Flight {
         
     }
 
+    /**
+     * 
+     * @return Date in French format
+     */
     public String getDate()
     {
         Date time = this.date.getTime();
@@ -43,27 +55,52 @@ public class Flight {
         return dateFormat.format(time);
     }
 
+    /**
+     * 
+     * @return Airport of the Destination
+     */
     public Airport getDest()
     {
         return dest;
     }
 
+    /**
+     * 
+     * @return id of the Flight
+     */
     public String getId()
     {
         return id;
     }
 
+    /**
+     * 
+     * @return Airport of the Origine
+     */
     public Airport getOrig()
     {
         return orig;
     }
     
+    /**
+     * Create Section in the flight
+     * @param rows
+     * @param cols
+     * @param s
+     * @throws ObjectExistInHashSetException
+     * @throws FieldLengthException 
+     */
     public void createSection(int rows, int cols, SeatClass s) throws ObjectExistInHashSetException, FieldLengthException
     {
         if(!this.flightSections.add(new FlightSection(rows, cols, s)))
             throw new ObjectExistInHashSetException("Flight section : "+s+" already exist for flight "+this.id);
     }
     
+    /**
+     * Checks if the section exist in the flight
+     * @param s
+     * @return 
+     */
     public boolean hasSection(SeatClass s)
     {
         boolean result = false;
@@ -75,6 +112,12 @@ public class Flight {
         return result;
     }
     
+    /**
+     * Find section in the flight
+     * @param s
+     * @return
+     * @throws ObjectNotExistInHashSetException 
+     */
     public FlightSection findSection(SeatClass s) throws ObjectNotExistInHashSetException
     {
         
@@ -85,7 +128,15 @@ public class Flight {
         throw new ObjectNotExistInHashSetException("SeatClass "+s+" doesn't exist in flight id "+this.getId());
     }
     
-    public void bookSeat(SeatClass s, int row, int col) throws FieldLengthException, ObjectExistInHashSetException
+    /**
+     * Book seat in the flight
+     * @param s
+     * @param row
+     * @param col
+     * @throws FieldLengthException
+     * @throws ObjectExistInHashSetException 
+     */
+    public void bookSeat(SeatClass s, int row, char col) throws FieldLengthException, ObjectExistInHashSetException
     {
         try {
             FlightSection fs = this.findSection(s);
@@ -95,10 +146,17 @@ public class Flight {
         }    
     }
     
+    /**
+     * Display all flightsection who existing in the flight
+     */
     public void displayFlightSections()
     {
         for(FlightSection flightSection: this.flightSections)
+        {
             System.out.println(flightSection);
+            flightSection.getSeats();
+        }
+            
     }
 
     @Override
@@ -125,7 +183,17 @@ public class Flight {
 
     @Override
     public String toString() {
-        return "Flight{" + "id=" + id + ", orig=" + orig.getName() + ", dest=" + dest.getName() + ", date=" + this.getDate() + '}';
+        StringBuffer sb = new StringBuffer();
+        sb = sb.append("Flight{id=")
+            .append(id)
+            .append(", orig=")
+            .append(orig.getName())
+            .append(", dest=")
+            .append(dest.getName())
+            .append(", date=")
+            .append(this.getDate())
+            .append("}");
+        return  sb.toString();
     }
     
     

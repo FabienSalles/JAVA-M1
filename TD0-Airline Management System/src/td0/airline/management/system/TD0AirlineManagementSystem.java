@@ -50,6 +50,15 @@ public class TD0AirlineManagementSystem {
         res.createSection("DELTA", "123", 1, 2, SeatClass.ECO);
 //        res.createSection("SWSERTT", "123", 5, 5, SeatClass.ECO);
         
+        //res.displaySystemDetails();
+        
+        res.findAvailableFlights("DEN", "LON");
+        
+        res.bookSeat("DELTA", "123", SeatClass.BUSI, 1, 'A');
+        res.bookSeat("DELTA", "123", SeatClass.ECO, 1, 'A');
+        res.bookSeat("DELTA", "123", SeatClass.ECO, 1, 'B');
+        //res.bookSeat("DELTA", "123", SeatClass.BUSI, 1, 'A');
+        
         res.displaySystemDetails();
         
         res.findAvailableFlights("DEN", "LON");

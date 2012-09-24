@@ -10,6 +10,10 @@ package td0.airline.management.system.exception;
  */
 public class ObjectNotExistInHashSetException extends Exception{
     
+    /**
+     * Constructor
+     * @param message 
+     */
     public ObjectNotExistInHashSetException(String message)
     {
         super(message);

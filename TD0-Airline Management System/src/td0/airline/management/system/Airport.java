@@ -15,6 +15,10 @@ public class Airport
 {
     private String name;
     
+    /**
+     * 
+     * @return name (String) of the Airport
+     */
     public String getName()
     {
         return this.name;
@@ -58,7 +62,9 @@ public class Airport
 
     @Override
     public String toString() {
-        return "Airport{" + "name=" + name + '}';
+        StringBuffer sb = new StringBuffer();
+        sb = sb.append("Airport{name=").append(name).append("}");
+        return  sb.toString();
     }
     
     

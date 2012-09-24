@@ -15,27 +15,48 @@ public class SeatID {
     private int row;
     private Character column;
     
+    /**
+     * Constructor
+     * @param row
+     * @param column 
+     */
     public SeatID(int row, Character column)
     {
         this.row = row;
         this.column = column;
     }
 
+    /**
+     * 
+     * @return column of the seat
+     */
     public Character getColumn()
     {
         return column;
     }
 
+    /**
+     * 
+     * @return row of the seat
+     */
     public Integer getRow()
     {
         return row;
     }
 
+    /**
+     * Set column of the seat
+     * @param column 
+     */
     public void setColumn(Character column) 
     {
         this.column = column;
     }
 
+    /**
+     * Set row of the seat
+     * @param row 
+     */
     public void setRow(Integer row)
     {
         this.row = row;
@@ -70,7 +91,13 @@ public class SeatID {
     @Override
     // utiliser string buffers
     public String toString() {
-        return "SeatID{" + "row=" + row + ", column=" + column + '}';
+        StringBuffer sb = new StringBuffer();
+        sb = sb.append("SeatId{row=")
+            .append(row)
+            .append(", column=")
+            .append(column)
+            .append("}");
+        return  sb.toString();
     }
     
     

@@ -22,6 +22,13 @@ public class FlightSection {
     private char cols;
     private Set<Seat> seats;
   
+    /**
+     * Constructor
+     * @param rows
+     * @param cols
+     * @param s
+     * @throws FieldLengthException 
+     */
     public FlightSection(int rows, int cols, SeatClass s) throws FieldLengthException
     {
         if(rows < 1 || rows > 10)
@@ -37,11 +44,20 @@ public class FlightSection {
         }
         
     }
+    
+    /**
+     * 
+     * @return seatclass of the flightsection
+     */
     public SeatClass getSeatClass()
     {
         return  this.section;
     }
     
+    /**
+     * 
+     * @return true if available seat exist
+     */
     public boolean hasAvailableSeats()
     {
         boolean available = false;
@@ -53,29 +69,39 @@ public class FlightSection {
         return available;
     }
 
-    public void bookSeat(int row, int col) throws FieldLengthException, ObjectExistInHashSetException
+    /**
+     * Book seat in flightsection
+     * @param row
+     * @param col
+     * @throws FieldLengthException
+     * @throws ObjectExistInHashSetException 
+     */
+    public void bookSeat(int row, char col) throws FieldLengthException, ObjectExistInHashSetException
     {
         Seat seat;
         
         if(rows < 1 || rows > 10)
             throw new FieldLengthException("The Rows must be between 1 and 10");
         else {
-            if(FlightSection.intToChar(cols) != 0){
-                for(Seat s: this.seats){
-                    if(s.getSeatNum().getRow() == row && s.getSeatNum().getColumn() == FlightSection.intToChar(col)){
-                        seat = s;
-                        if(seat.getStatus())
-                            throw new ObjectExistInHashSetException("The seat "+row+col+" isn't available");
-                        else
-                            seat.setIsBooked(true);
-                        break;
-                    }
+            for(Seat s: this.seats){
+                if(s.getSeatNum().getRow() == row && s.getSeatNum().getColumn().equals(col)){
+                    seat = s;
+                    if(seat.getStatus())
+                        throw new ObjectExistInHashSetException("The seat "+row+col+" isn't available");
+                    else
+                        seat.setIsBooked(true);
+                    break;
                 }
             }
         }
         
     }
     
+    /**
+     * Initilaize seat
+     * @param cols
+     * @throws FieldLengthException 
+     */
     private void initSeat(int cols) throws FieldLengthException
     {
         for(int i = 1; i<=cols; i++)
@@ -83,6 +109,12 @@ public class FlightSection {
                 this.seats.add(new Seat(new SeatID(j, FlightSection.intToChar(i))));
     }
     
+    /**
+     * Convert int to char
+     * @param i
+     * @return
+     * @throws FieldLengthException 
+     */
     public static char intToChar(int i) throws FieldLengthException
     {
         char cols;
@@ -121,6 +153,17 @@ public class FlightSection {
         }
         return cols;
     }
+    
+    /**
+     * Display all seats booked
+     */
+    public void getSeats()
+    {
+        for(Seat s:this.seats)
+            if(s.getStatus())
+                System.out.println(s);
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -145,6 +188,14 @@ public class FlightSection {
 
     @Override
     public String toString() {
-        return "FlightSection{" + "section=" + section + ", rows=" + rows + ", cols=" + cols + '}';
+        StringBuffer sb = new StringBuffer();
+        sb = sb.append("FlightSection{section=")
+            .append(section)
+            .append(", rows=")
+            .append(rows)
+            .append(", cols=")
+            .append(cols)
+            .append("}");
+        return  sb.toString();
     }
 }

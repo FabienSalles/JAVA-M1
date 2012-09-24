@@ -20,13 +20,19 @@ public class SystemManager
     private Set<Airport> airports;
     private Set<Airline> airlines;
     
+    /**
+     * Constructor
+     */
     public SystemManager()
     {
         this.airports = new LinkedHashSet();
         this.airlines = new LinkedHashSet();
     }
     
-    
+    /**
+     * Create airport in the SystemManager
+     * @param airport 
+     */
     public void createAirport(String airport)
     {
         try {
@@ -41,6 +47,10 @@ public class SystemManager
         }
     }
     
+    /**
+     * Create airline in the SystemManager
+     * @param airline 
+     */
     public void createAirline(String airline)
     {
         try {
@@ -55,6 +65,16 @@ public class SystemManager
         }
     }
     
+    /**
+     * Create Flight in the SystemManager
+     * @param n
+     * @param orig
+     * @param dest
+     * @param year
+     * @param month
+     * @param day
+     * @param id 
+     */
     public void createFlight(String n, String orig, String dest, int year, int month, int day, String id)
     {
 
@@ -78,6 +98,14 @@ public class SystemManager
         }
     }
     
+    /**
+     * Create Section in the systemmanger
+     * @param air
+     * @param flid
+     * @param rows
+     * @param cols
+     * @param s 
+     */
     public void createSection(String air, String flid, int rows, int cols, SeatClass s)
     {
         try {
@@ -91,6 +119,11 @@ public class SystemManager
         
     }
     
+    /**
+     * Display available flight in the SystemManager
+     * @param orig
+     * @param dest 
+     */
     public void findAvailableFlights(String orig, String dest)
     {
         for(Airline air: this.airlines)
@@ -99,18 +132,32 @@ public class SystemManager
                     System.out.println(fl);
     }
     
-    public void bookSeat(String air, String fl, SeatClass s, int row, int col)
+    /**
+     * Book seat in the SystemManger
+     * @param air
+     * @param fl
+     * @param s
+     * @param row
+     * @param col 
+     */
+    public void bookSeat(String air, String fl, SeatClass s, int row, char col)
     {
         Airline airline;
         try {
             airline = this.findAirline(air);
             airline.bookFight(fl, s, row, col);
-        } catch (ObjectNotExistInHashSetException ex) {
+        } catch (FieldLengthException | ObjectExistInHashSetException | ObjectNotExistInHashSetException ex) {
             Logger.getLogger(SystemManager.class.getName()).log(Level.SEVERE, null, ex);
             ex.getMessage();
         }
     }
     
+    /**
+     * Find airline in the SystemManager
+     * @param n
+     * @return
+     * @throws ObjectNotExistInHashSetException 
+     */
     public Airline findAirline(String n) throws ObjectNotExistInHashSetException
     {
         for(Airline airline: this.airlines)
@@ -120,6 +167,12 @@ public class SystemManager
         throw new ObjectNotExistInHashSetException("Airline "+n+" doesn't exist");
     }
     
+    /**
+     * Find Airport in the SystemManager
+     * @param n
+     * @return
+     * @throws ObjectNotExistInHashSetException 
+     */
     public Airport findAirport(String n) throws ObjectNotExistInHashSetException
     {
         for(Airport airport: this.airports)
@@ -129,6 +182,9 @@ public class SystemManager
         throw new ObjectNotExistInHashSetException("Airport "+n+" doesn't exist");
     }
     
+    /**
+     * Display all SystemManager
+     */
     public void displaySystemDetails()
     {
         
