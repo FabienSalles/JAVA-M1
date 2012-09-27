@@ -21,6 +21,7 @@ public class Auth {
     
     public Auth()
     {
+        this.result = new Hashtable();
         try{
             Class.forName("oracle.jdbc.driver.OracleDriver");
         }
@@ -49,6 +50,9 @@ public class Auth {
     
     public boolean estReconnue(String login, String password)
     {
+        if(result.get(login) == null)
+            return false;
+        
         return result.get(login).equals(password);
     }
 }

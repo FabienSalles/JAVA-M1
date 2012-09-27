@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Authentification</h1>
-        <form style="margin: auto; text-align: center;" method="post" action="authentification">
+        <form style="margin: auto; text-align: center;" method="post" action="td2ServletJDBC/authentification">
             <div>
                 <label for="login">Login : </label>
                 <input type="text" name="login" id="login" />

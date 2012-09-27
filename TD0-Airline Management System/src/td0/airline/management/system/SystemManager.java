@@ -56,10 +56,7 @@ public class SystemManager
         try {
             if(!this.airlines.add(new Airline(airline)))
                 throw new ObjectExistInHashSetException("Airline "+airline+" already exist");
-        } catch (FieldLengthException ex) {
-            Logger.getLogger(SystemManager.class.getName()).log(Level.SEVERE, null, ex);
-            ex.getMessage();
-        } catch (ObjectExistInHashSetException ex) {
+        } catch (FieldLengthException | ObjectExistInHashSetException ex) {
             Logger.getLogger(SystemManager.class.getName()).log(Level.SEVERE, null, ex);
             ex.getMessage();
         }

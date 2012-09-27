@@ -6,6 +6,9 @@ package td2ServletJDBC;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,10 +20,16 @@ import javax.servlet.http.HttpSession;
  *
  * @author fasalles
  */
-@WebServlet(name = "authentification", urlPatterns = {"/authentification"})
+@WebServlet(name = "authentification", urlPatterns = {"/td2ServletJDBC/authentification"})
 public class authentification extends HttpServlet {
 
-
+    Auth auth;
+    
+    @Override
+    public void init(ServletConfig c) throws ServletException
+    {
+        auth = new Auth();
+    }
     /**
      * Handles the HTTP
      * <code>POST</code> method.
@@ -34,12 +43,9 @@ public class authentification extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-//        HttpSession session = request.getSession(true) ;
-//        if(session.getAttribute("auth") == null)
-//            session.setAttribute("auth", new Auth());
-        
+    
+
         PrintWriter out = response.getWriter();
-        Auth  auth = new Auth();
         if(auth.estReconnue(request.getParameter("login"), request.getParameter("pwd"))){
             out.print("Bonjour "+request.getParameter("login"));
         }
