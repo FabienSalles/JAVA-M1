@@ -1,0 +1,11 @@
+1/ Importer le projet avec netbeans
+
+2/ vérifier les identifiants de connection à la base de données se trouvant dans le fichier web/WEB-INF/database.properties
+
+3/ Vérifier que le poste possède un serveur web avec Tomcat
+
+4/ Vérifier que le projet possède la librarie ojdbc6.rar
+
+4/ Faire un build de l'ensemble du projet (clique droit sur le projet netbeans > Build)
+
+5/ Lancer le servlet index.java (Le_Projet > Source packages > Controller > index.java)
