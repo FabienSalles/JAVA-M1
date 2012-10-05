@@ -4,6 +4,8 @@
 
 3/ Vérifier que le poste possède un serveur web avec Tomcat
 
+4/ importer dans le SGBD le fichier sql.sql
+
 4/ Vérifier que le projet possède la librarie ojdbc6.rar
 
 4/ Faire un build de l'ensemble du projet (clique droit sur le projet netbeans > Build)
