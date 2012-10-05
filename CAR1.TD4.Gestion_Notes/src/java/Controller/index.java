@@ -26,6 +26,8 @@ public class index extends MyServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        checkSession(request);
+        
         request.setAttribute("user", new Utilisateur());
         
         goToPage("/index.jsp", request, response);
@@ -36,18 +38,21 @@ public class index extends MyServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        checkSession(request);
         Utilisateur user = processForm(request);
         
         if(user.getErrors().hasErrors()){
+            request.setAttribute("user", user);
             goToPage("/index.jsp", request, response);
         } else {
              // create the session of the user
-            createSession(request, user);
-            
+            logUser(request, user);
+
             if(user instanceof Enseignant) {
-                goToPage("/modules", request, response);
-            } else
-                goToPage("/notes", request, response);
+                response.sendRedirect(request.getContextPath()+"/modules");
+            } else {
+                response.sendRedirect(request.getContextPath()+"/notes");
+            }
         }
             
     }

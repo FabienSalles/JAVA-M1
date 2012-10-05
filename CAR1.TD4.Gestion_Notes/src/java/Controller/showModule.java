@@ -5,6 +5,7 @@
 package Controller;
 
 import Exception.ConnectionNotFoundException;
+import Exception.ObjectNotFoundInDatabaseException;
 import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author fasalles
  */
-@WebServlet(name = "modules", urlPatterns = {"/modules"})
-public class modules extends MyServlet {
+@WebServlet(name = "showModule", urlPatterns = {"/showModule"})
+public class showModule extends MyServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,17 +35,23 @@ public class modules extends MyServlet {
         if(!checkPermission("enseignant"))
             response.sendRedirect(request.getContextPath()+"/index");
         
-        try
-        {
-            Set<Module> modules = ModuleTable.findModulesByTeacher((Enseignant)session.getAttribute("user"));
+        try {
+            Module module = new Module(Integer.parseInt(request.getParameter("id")));
             
-            request.setAttribute("modules", modules);
-            goToPage("/modules.jsp", request, response); 
-        } 
-        catch (ConnectionNotFoundException ex) {
-            Logger.getLogger(notes.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(notes.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                Set<Etudiant> students = EtudiantTable.findStudentsByModule(module.getId());
+
+                request.setAttribute("module", module);
+                request.setAttribute("students", students);
+                goToPage("/showModule.jsp", request, response);
+                
+            } catch (ConnectionNotFoundException ex) {
+                Logger.getLogger(showModule.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(showModule.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ObjectNotFoundInDatabaseException ex) {
+            Logger.getLogger(showModule.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -55,6 +62,6 @@ public class modules extends MyServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Controller of Modules";
+        return "Show Students in Module";
     }// </editor-fold>
 }

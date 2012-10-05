@@ -65,7 +65,7 @@ public class Enseignant extends Utilisateur{
             prepare.setString(1, this.login);
 
             ResultSet rs = prepare.executeQuery();
-            System.out.println(this);
+            
             if(!rs.first())
                 this.errors.addError("login","Enseignant with the login "+this.login+" don't exist in the database");
 
@@ -79,6 +79,7 @@ public class Enseignant extends Utilisateur{
         }
     }
     
+    @Override
     public void init(ResultSet rs) throws SQLException
     {
         super.init(rs);

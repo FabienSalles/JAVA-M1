@@ -5,6 +5,7 @@
 package Model;
 
 import Exception.ConnectionNotFoundException;
+import Exception.ObjectNotFoundInDatabaseException;
 import Model.Query;
 import Model.Enseignant;
 import java.sql.PreparedStatement;
@@ -27,6 +28,24 @@ public class Etudiant extends Utilisateur{
         super();
         this.type = 1;
         this.errors.addProperty("netudiant");
+    }
+    
+    public Etudiant(ResultSet rs) throws SQLException
+    {
+        this.init(rs);
+    }
+    
+    public Etudiant(String netudiant) throws ObjectNotFoundInDatabaseException
+    {
+        this.netudiant = netudiant;
+        
+        try {
+            this.findEtudiantById();
+        } catch (ConnectionNotFoundException ex) {
+            Logger.getLogger(Enseignant.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Enseignant.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public Etudiant(String login, String password)
@@ -65,7 +84,7 @@ public class Etudiant extends Utilisateur{
             prepare.setString(1, this.login);
 
             ResultSet rs = prepare.executeQuery();
-            System.out.println(this);
+
             if(!rs.first())
                 this.errors.addError("login","Etudiant with the login "+this.login+" don't exist in the database");
 
@@ -79,6 +98,23 @@ public class Etudiant extends Utilisateur{
         }
     }
     
+    public void findEtudiantById() throws ConnectionNotFoundException, SQLException, ObjectNotFoundInDatabaseException
+    {
+        PreparedStatement prepare = Query
+            .getInstance()
+            .prepareStatement("SELECT * FROM Etudiant WHERE netudiant = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+        prepare.setString(1, this.netudiant);
+
+        ResultSet rs = prepare.executeQuery();
+        
+        if(!rs.first()){
+            throw new ObjectNotFoundInDatabaseException("Etudiant don't exist in the database");
+        }    
+        else {
+            this.init(rs);
+        }
+    }
     /**
      * Initialize Object    
      * @param rs 

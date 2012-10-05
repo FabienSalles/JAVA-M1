@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page errorPage="error.jsp" %>
 <jsp:useBean id="user" class="Model.Utilisateur" scope="request" />
 <!DOCTYPE html>
 <html>

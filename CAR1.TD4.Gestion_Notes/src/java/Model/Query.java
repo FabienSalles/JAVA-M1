@@ -46,7 +46,7 @@ public class Query{
     * Objet Connection
     */
     private static Connection connect;
-
+   
     /**
     * Constructeur privé
     */
@@ -101,7 +101,7 @@ public class Query{
     public static Connection getInstance(String context)
     {
         if(connect == null){
-            new Query(context);
+             new Query(context);
         }
         return connect;	
     }

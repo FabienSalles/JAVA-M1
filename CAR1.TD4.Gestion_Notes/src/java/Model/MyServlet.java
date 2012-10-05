@@ -27,9 +27,14 @@ public abstract class MyServlet extends HttpServlet{
     public void init()
     {
         this.path = getServletContext().getRealPath("");
-        this.connect = Query.getInstance(this.path);
         this.errors = new Error();
-
+        this.connect = Query.getInstance(this.path);
+    }
+    
+    public void checkSession(HttpServletRequest request)
+    {
+        if(session == null)
+            this.session = request.getSession(true);
     }
     
     protected void goToPage(String url, HttpServletRequest request, HttpServletResponse response)
@@ -39,9 +44,8 @@ public abstract class MyServlet extends HttpServlet{
             .forward(request, response);
     }
     
-    protected void createSession(HttpServletRequest request, Utilisateur user)
+    protected void logUser(HttpServletRequest request, Utilisateur user)
     {
-        session = request.getSession(true);
         session.setAttribute("user", user);
     }
     
