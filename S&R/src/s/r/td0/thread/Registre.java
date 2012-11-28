@@ -21,7 +21,7 @@ public class Registre {
             return res;
     }
     
-    public synchronized void ecrit_Registre(int[] T) {
+    public void ecrit_Registre(int[] T) {
         for (int i = 0; i < Tab.length; i++) { Tab[i] = T[i];}
     }
 }

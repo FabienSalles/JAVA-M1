@@ -33,7 +33,7 @@ public class QueryBD {
         try{
             /** connexion à la base */
             String url="jdbc:oracle:thin:@miage03.dmiage.u-paris10.fr:1521:MIAGE";
-            this.cx = DriverManager.getConnection(url, "fasalles", "fasalles");
+            this.cx = DriverManager.getConnection(url, "fasalles", "apprentis2011pw");
             this.req = cx.createStatement();
          
         } catch( Exception ex){
@@ -44,6 +44,7 @@ public class QueryBD {
     
     public Set<DVD> getDVDs()
     {
+        new QueryBD();
         Set<DVD> result = new HashSet();
         try {
             String sql = "SELECT * FROM catalogue";

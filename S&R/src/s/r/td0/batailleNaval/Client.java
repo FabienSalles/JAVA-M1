@@ -4,44 +4,60 @@
  */
 package s.r.td0.batailleNaval;
 
-import java.io.*;
-import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import s.r.td1.socket.tcp.TCPClient;
+import java.util.Random;
 
 /**
  *
- * @author fasalles
+ * @author yvrenaud
  */
 public class Client {
-    public static void main(String argv[])
-    {
-        try {
-            String sentence;
-            String modifiedSentence;
+
+    // C'est lui qui utilise l'object communication
+    public static void main(String args[]) throws Exception {
+
+        // Nombre de coups max permis pour le client
+        int nb_coups_max = 100000;
+        // Nombre de coups joués actuellement
+        int nb_actuel = 0;
+        int x, y;
+        Random random = new Random();
+        
+        Communication c = new Communication("localhost", 9876);
+        c.connecter();
+        
+        Message m = c.recevoirMessage();
+        System.out.println("Début de la partie");
+        System.out.println("Nombre de bateaux sur le plateau : "+m.getCombien());
+
+        while (nb_actuel < nb_coups_max && m.getAuRevoir().equals("NON"))
+        {
+            x = random.nextInt(Plateau.TAILLE);
+            y = random.nextInt(Plateau.TAILLE);
+
+            m.setPosX(x);
+            m.setPosY(y);
+            System.out.println("Bombarde (" + m.getPosX() + ":" + m.getPosY() + ")");
+            c.envoyerMessage(m);
+            m = c.recevoirMessage();
+            System.out.println(m.getText());
+            c.envoyerMessage(m);
+            m = c.recevoirMessage(); // Recoit le nombre de bateaux restant après le coup
+            System.out.println(m.getText() + m.getCombien());
             
-            BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-            
-            Socket clientSocket = new Socket("localhost", 6789);        
-            
-            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-            
-            BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            
-            sentence = inFromUser.readLine();
-            
-            outToServer.writeBytes(sentence+'\n');
-            
-            modifiedSentence = inFromServer.readLine();
-            
-            System.out.println("From Server : "+modifiedSentence);
-            
-            clientSocket.close();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(TCPClient.class.getName()).log(Level.SEVERE, null, ex);
+            if(m.getCombien() == 0)
+            {
+               break;
+            }
+
+            nb_actuel++;
         }
+        
+        m.setAuRevoir("OUI");
+        c.envoyerMessage(m);
+        
+        m = c.recevoirMessage(); // Recoit le resultat gagné ou non
+        System.out.println(m.getText());
+        
+        c.deconnecter();
     }
 }

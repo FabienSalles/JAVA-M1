@@ -28,7 +28,7 @@ public abstract class MyServlet extends HttpServlet{
     {
         this.path = getServletContext().getRealPath("");
         this.errors = new Error();
-        this.connect = Query.getInstance(this.path);
+        this.connect = Query.getInstance(getServletContext().getRealPath(""));
     }
     
     public void checkSession(HttpServletRequest request)
