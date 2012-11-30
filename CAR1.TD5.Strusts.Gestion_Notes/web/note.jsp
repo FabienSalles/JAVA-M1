@@ -19,6 +19,7 @@
         <title><bean:message key="note.title"/></title>
     </head>
     <body>
+        <jsp:include page="navbar.jsp" />
         <section class="container">
             <div class="row">
                 <header class="hero-unit">

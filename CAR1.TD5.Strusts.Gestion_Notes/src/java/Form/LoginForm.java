@@ -9,6 +9,7 @@ import Exception.ObjectNotFoundInDatabaseException;
 import Model.Student;
 import Model.StudentTable;
 import Model.TeacherTable;
+import Model.User;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,19 @@ public class LoginForm extends UserForm {
         // TODO Auto-generated constructor stub
     }
 
+    public User getUser() throws ConnectionNotFoundException, SQLException, ObjectNotFoundInDatabaseException
+    {
+        User user = null;
+        if (this.type == 1)
+        {
+            user = StudentTable.findByLoginAndPassword(this.login, this.password);
+        }
+        else if (this.type == 2)
+        {
+            user = TeacherTable.findByLoginAndPassword(this.login, this.password);
+        }
+        return user;
+    }
     /**
      * This is the action called from the Struts framework.
      *
@@ -54,31 +68,19 @@ public class LoginForm extends UserForm {
         if (this.type == null) {
             errors.add("type", new ActionMessage("errors.required", "Le type de personne"));
         }
-        else if (this.type == 1)
+        else
         {
             try {
-                StudentTable.findByLoginAndPassword(this.login, this.password);
+                this.getUser();
             } catch (ConnectionNotFoundException ex) {
                 // je n'ai pas utilisé ActionMessages.GLOBAL_MESSAGE
                 // pour séparer les messages d'erreurs en évitant d'utiliser
                 // simplement une balise <html:errors/> dans le fichier jsp
-                errors.add("global", new ActionMessage("errors.detail", ex));
+                errors.add("bdd", new ActionMessage("errors.detail", ex));
             } catch (SQLException ex) {
-                errors.add("global", new ActionMessage("errors.detail", ex));
+                errors.add("bdd", new ActionMessage("errors.detail", ex));
             } catch (ObjectNotFoundInDatabaseException ex) {
-                errors.add("global", new ActionMessage("errors.detail", ex));
-            }
-        }
-        else if (this.type == 2)
-        {
-            try {
-                TeacherTable.findByLoginAndPassword(this.login, this.password);
-            } catch (ConnectionNotFoundException ex) {
-                errors.add("global", new ActionMessage("errors.detail", ex));
-            } catch (SQLException ex) {
-                errors.add("global", new ActionMessage("errors.detail", ex));
-            } catch (ObjectNotFoundInDatabaseException ex) {
-                errors.add("global", new ActionMessage("errors.detail", ex));
+                errors.add("bdd", new ActionMessage("errors.detail", ex));
             }
         }
         return errors;

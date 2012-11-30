@@ -16,35 +16,32 @@ import org.apache.struts.action.ActionMessage;
  */
 public class NotesModuleForm extends org.apache.struts.action.ActionForm {
     
-    private String name;
-    private int number;
+    private String netudiant;
+    private Integer idModule;
+    private double note;
 
-    /**
-     * @return
-     */
-    public String getName() {
-        return name;
+    public Integer getIdModule() {
+        return idModule;
     }
 
-    /**
-     * @param string
-     */
-    public void setName(String string) {
-        name = string;
+    public String getNetudiant() {
+        return netudiant;
     }
 
-    /**
-     * @return
-     */
-    public int getNumber() {
-        return number;
+    public double getNote() {
+        return note;
     }
 
-    /**
-     * @param i
-     */
-    public void setNumber(int i) {
-        number = i;
+    public void setIdModule(Integer idModule) {
+        this.idModule = idModule;
+    }
+
+    public void setNetudiant(String netudiant) {
+        this.netudiant = netudiant;
+    }
+
+    public void setNote(double note) {
+        this.note = note;
     }
 
     /**
@@ -64,10 +61,10 @@ public class NotesModuleForm extends org.apache.struts.action.ActionForm {
      */
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
         ActionErrors errors = new ActionErrors();
-        if (getName() == null || getName().length() < 1) {
-            errors.add("name", new ActionMessage("error.name.required"));
-            // TODO: add 'error.name.required' key to your resources
-        }
+//        if (getName() == null || getName().length() < 1) {
+//            errors.add("name", new ActionMessage("error.name.required"));
+//            // TODO: add 'error.name.required' key to your resources
+//        }
         return errors;
     }
 }

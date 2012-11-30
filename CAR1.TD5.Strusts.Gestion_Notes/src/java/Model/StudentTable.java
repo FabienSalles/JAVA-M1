@@ -26,15 +26,25 @@ public class StudentTable {
         students = new LinkedHashSet();
         
         PreparedStatement prepare = Query
-                .getInstance()
-                .prepareStatement("SELECT * FROM Etudiant e INNER JOIN Note n on n.netudiant = e.netudiant WHERE id_module = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            .getInstance()
+            .prepareStatement(
+                "SELECT * FROM Etudiant e "
+                + "INNER JOIN Note n on n.netudiant = e.netudiant "
+                + "WHERE n.id_module = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
+            )
+        ;
         
         prepare.setInt(1, idModule);
 
         ResultSet rs = prepare.executeQuery();
 
         while(rs.next())
-            students.add(new Student(rs));
+        {
+            Student student = new Student(rs);
+            student.setNote(rs.getInt("id_module"), rs.getDouble("note"));
+             students.add(student);
+        }
+           
         
         return students;
     }

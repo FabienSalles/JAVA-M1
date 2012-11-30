@@ -23,15 +23,24 @@ public class NoteTable
         notes = new LinkedHashSet();
         
         PreparedStatement prepare = Query
-                .getInstance()
-                .prepareStatement("SELECT * FROM Note WHERE netudiant = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            .getInstance()
+            .prepareStatement(
+                "SELECT * FROM Note n "
+                + "INNER JOIN Etudiant e on n.netudiant = e.netudiant "
+                + "INNER JOIN Module m on m.id = n.id_module "
+                + "WHERE e.netudiant = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
+            )
+        ;
         
         prepare.setString(1, user.getNetudiant());
 
         ResultSet rs = prepare.executeQuery();
 
         while(rs.next())
+        {
             notes.add(new Note(rs));
+        }
+            
         
         return notes;
     }

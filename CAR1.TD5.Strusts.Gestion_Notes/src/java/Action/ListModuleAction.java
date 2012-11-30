@@ -18,10 +18,8 @@ import org.apache.struts.action.ActionMapping;
  */
 public class ListModuleAction extends org.apache.struts.action.Action {
 
-    /*
-     * forward name="success" path=""
-     */
-    private static final String SUCCESS = "success";
+    private static final String SUCCESS = "showModule";
+    private static final String FAIL = "index";
 
     /**
      * This is the action called from the Struts framework.
@@ -38,12 +36,12 @@ public class ListModuleAction extends org.apache.struts.action.Action {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         
-        String render = "index.do";
+        String render = FAIL;
         
         if(Auth.isGrant(request, Auth.TEACHER)){
             Set<Module> modules = ModuleTable.findByTeacher((Teacher)Auth.getUser(request));
             request.setAttribute("modules", modules);
-            render = "showModule";
+            render = SUCCESS;
         }
         
         return mapping.findForward(render);

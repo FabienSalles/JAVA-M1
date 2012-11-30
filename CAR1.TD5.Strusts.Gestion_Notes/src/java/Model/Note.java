@@ -35,16 +35,6 @@ public class Note
     public Note(ResultSet rs) throws SQLException
     {
         this.init(rs);
-        
-        try {
-            this.student = new Student(this.netudiant);
-            this.module = new Module(this.idModule);
-        } catch (ConnectionNotFoundException ex) {
-            Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ObjectNotFoundInDatabaseException ex) {
-            Logger.getLogger(Note.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
     }
 
     public Integer getIdModule()
@@ -96,6 +86,8 @@ public class Note
         this.idModule = rs.getInt("id_module");
         this.netudiant = rs.getString("netudiant");
         this.note = rs.getDouble("note");
+        this.module = new Module(rs);
+        this.student = new Student(rs);
     }
 
     @Override

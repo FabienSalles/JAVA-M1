@@ -4,6 +4,7 @@
  */
 package Action;
 
+import Form.LoginForm;
 import Model.Auth;
 import Model.Query;
 import Model.StudentTable;
@@ -23,10 +24,7 @@ import org.apache.struts.action.ActionMapping;
  */
 public class LoginAction extends org.apache.struts.action.Action {
     
-    /*
-     * forward name="success" path=""
-     */
-    private static final String SUCCESS = "success";
+    private static final String FAIL = "index";
 
     /**
      * This is the action called from the Struts framework.
@@ -41,23 +39,20 @@ public class LoginAction extends org.apache.struts.action.Action {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
     {
-        String render = SUCCESS;
-        User user = null;
-        if(request.getParameter("type").equals("1"))
+        LoginForm loginForm = (LoginForm)form;
+        String render = FAIL;
+        User user = loginForm.getUser();
+        Auth.login(request, user);
+        
+        if(loginForm.getType() == 1)
         {
-            user = (User)StudentTable.findByLoginAndPassword(request.getParameter("login"), request.getParameter("password"));
             render = "listNote";
         }
-        else if(request.getParameter("type").equals("2"))
+        else if(loginForm.getType() == 2)
         {
-            user = (User)TeacherTable.findByLoginAndPassword(request.getParameter("login"), request.getParameter("password"));
             render = "listModule";
         }
-        else
-        {
-            render = "index";
-        }
-        Auth.login(request, user);
+        
         return mapping.findForward(render);
     }
 }

@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  */
 public class Query{
     
+    private final static String FILE_PROPS = "/properties/database.properties";
     /**
      * Driver
      */
@@ -38,10 +39,7 @@ public class Query{
     * Mot de passe du user
     */
     private String passwd;
-    /**
-     * context
-     */
-    private String context;
+
     /**
     * Objet Connection
     */
@@ -50,17 +48,12 @@ public class Query{
     /**
     * Constructeur privé
     */
-    private Query(String context)
+    private Query()
     {
-        
-        this.context = context;
-        
         Properties prop = new Properties();
-        FileInputStream in;
         
         try {
-            in = new FileInputStream(this.context+"/WEB-INF/database.properties");
-            prop.load(in);
+            prop.load(Query.class.getResourceAsStream(FILE_PROPS));
         } catch (IOException ex) {
             Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,7 +82,7 @@ public class Query{
 
     @Override
     public String toString() {
-        return "Query{" + "driver=" + driver + ", url=" + url + ", user=" + user + ", passwd=" + passwd + ", context=" + context + '}';
+        return "Query{" + "driver=" + driver + ", url=" + url + ", user=" + user + ", passwd=" + passwd + '}';
     }
 
     /**
@@ -97,24 +90,11 @@ public class Query{
     * et la créer si elle n'existe pas...
     * @return Connection connect
     */
-    public static Connection getInstance(String context)
+    public static Connection getInstance()
     {
         if(connect == null){
-             new Query(context);
+             new Query();
         }
         return connect;	
-    }
-    
-    /**
-    * Méthode qui va nous retourner notre instance
-    * retourne une exception si celle-ci n'exsite pas
-    * @return Connection connect
-    */
-    public static Connection getInstance()throws ConnectionNotFoundException
-    {
-        if(connect != null){
-            return connect;
-        }
-        throw new ConnectionNotFoundException("the connection must be initialize with the context in parameter");	
     }	
 }

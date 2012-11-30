@@ -13,18 +13,14 @@
     </form-beans>
     
     <global-exceptions>
-    
     </global-exceptions>
 
     <global-forwards>
-        <forward name="index"  path="/index.do"/>
+         <forward name="index"  path="/index.jsp" redirect="true"/>
     </global-forwards>
     
     <action-mappings>
-        <action input="/index.jsp" path="/index" type="Action.IndexAction">
-            <forward name="loginForm" path="/login.jsp"/>    
-        </action>
-        <action input="/login.jsp" name="LoginForm" path="/login" scope="request" type="Action.LoginAction" >
+        <action input="/index.jsp" name="LoginForm" path="/login" scope="request" type="Action.LoginAction" >
             <forward name="listNote"  path="/note.do" redirect="true"/>
             <forward name="listModule"  path="/listModule.do" redirect="true"/>
         </action>
@@ -38,6 +34,10 @@
         <action path="/showModule" type="Action.ShowModuleAction">
             <forward name="showModule" path="/module.jsp"/>
         </action>
+        <action name="NotesModuleForm" path="/noteModuleForm" scope="request" type="Action.NoteModuleAction">
+            <forward name="rowStudentNote"  path="/rowStudentNote.jsp"/>
+        </action>
+        <action path="/deconnection" type="Action.DeconnexionAction"/>
     </action-mappings>
     
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>

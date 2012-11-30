@@ -5,10 +5,6 @@
 package Action;
 
 import Model.Auth;
-import Model.Note;
-import Model.NoteTable;
-import Model.Student;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -19,13 +15,9 @@ import org.apache.struts.action.ActionMapping;
  *
  * @author fasalles
  */
-public class NoteAction extends org.apache.struts.action.Action {
+public class DeconnexionAction extends org.apache.struts.action.Action {
 
-    /*
-     * forward name="success" path=""
-     */
-    private static final String SUCCESS = "showNote";
-    private static final String FAIL = "index";
+    private static final String SUCCESS = "index";
 
     /**
      * This is the action called from the Struts framework.
@@ -38,16 +30,10 @@ public class NoteAction extends org.apache.struts.action.Action {
      * @return
      */
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception
-    {
-        String render = FAIL;
-        
-        if(Auth.isGrant(request, Auth.STUDENT)){
-            Set<Note> notes = NoteTable.findNotesByStudent((Student)Auth.getUser(request));
-            request.setAttribute("notes", notes);
-            render = SUCCESS;
-        }
-        
-        return mapping.findForward(render);
+    public ActionForward execute(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        Auth.logout(request, response);
+        return mapping.findForward(SUCCESS);
     }
 }

@@ -4,7 +4,7 @@
  */
 package Action;
 
-import Model.Query;
+import Form.NotesModuleForm;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
@@ -15,12 +15,12 @@ import org.apache.struts.action.ActionMapping;
  *
  * @author fasalles
  */
-public class IndexAction extends org.apache.struts.action.Action {
+public class NoteModuleAction extends org.apache.struts.action.Action {
 
     /*
      * forward name="success" path=""
      */
-    private static final String SUCCESS = "success";
+    private static final String SUCCESS = "rowStudentNote";
 
     /**
      * This is the action called from the Struts framework.
@@ -36,7 +36,17 @@ public class IndexAction extends org.apache.struts.action.Action {
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        Query.getInstance(this.servlet.getServletContext().getRealPath(""));
-        return mapping.findForward("loginForm");
+        
+        NotesModuleForm noteForm = (NotesModuleForm) form;
+        
+        request.setAttribute("id_module", noteForm.getIdModule());
+        request.setAttribute("netudiant", noteForm.getNetudiant());
+        request.setAttribute("note", noteForm.getNote());
+        
+        this.servlet.getServletContext()    
+            .getRequestDispatcher("/rowStudentNote.jsp")
+            .include(request, response);
+            
+        return null;
     }
 }

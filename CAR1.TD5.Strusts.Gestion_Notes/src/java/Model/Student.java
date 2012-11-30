@@ -9,6 +9,8 @@ import Exception.ObjectNotFoundInDatabaseException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +21,7 @@ import java.util.logging.Logger;
 public class Student extends User{
     
     private String netudiant;
-
+    private Map<Integer, Double> notes = new HashMap<Integer, Double>();
     
     public Student()
     {
@@ -56,6 +58,15 @@ public class Student extends User{
         this.netudiant = nuetudiant;
     }
     
+    public Double getNote(Integer idModule)
+    {
+        return this.notes.get(idModule);
+    }
+    
+    public void setNote(Integer idModule, Double note)
+    {
+        this.notes.put(idModule, note);
+    }
     /**
      * Initialize Object    
      * @param rs 
