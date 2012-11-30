@@ -1,17 +1,21 @@
+Projet dispo sur git : https://github.com/FabienSalles/JAVA-M1/tree/master/CAR1.TD5.Strusts.Gestion_Notes
+
 1/ Importer le projet avec netbeans
 
-2/ changer les identifiants de connection à la base de données se trouvant dans le fichier properties/database.properties
+2/ changer les identifiants de connection à la base de données se trouvant dans le fichier /properties/database.properties
 
 3/ importer dans le SGBD le fichier sql.sql
 
-4/ Lancer la jsp index.jsp
+4/ Lancer la jsp index.jsp ou en lancant le projet après l'avoir compiler
 
-NB : j'ai voulu utiliser le design pattern factory pour la base de données mais j'ai trouvé que celui-ci manquait d'utilité parce qu'on était obligé de caster les classes que le factory appel. Je suis donc revenu sur ma méthode présedente qui utilise des classes statics.
+NB : j'ai voulu utiliser le design pattern factory pour la base de données mais j'ai trouvé que celui-ci manquait d'utilité parce qu'on était obligé de caster les classes que le factory appel. Je suis donc revenu sur ma méthode présedante qui utilise des classes statiques.
 
 La modification des notes ne fonctionne pas parce que j'ai voulu la faire en ajax et je ne suis pas arrivé à récupérer uniquement le fichier jsp souhaiter. Il y a à chaque fois l'intégralité de la page qui arrive (voir console js lors de la validation).
 
 Mes identifiant de test sont :
-etudiant  : login : fabien mdp : salles
-enseignant : login : log mdp : test
+etudiant  : 
+	login : fabien mdp : salles
+enseignant : 
+	login : log mdp : test
 
 Ce sont eux qui on le plus de jeux de données.
