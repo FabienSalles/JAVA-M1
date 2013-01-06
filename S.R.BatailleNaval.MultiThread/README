@@ -1,0 +1,25 @@
+Bataille naval multiThread
+
+Prérequis : 
+	NetBeans
+	JDK7
+	Junit4
+
+Lancement du jeu :
+	1) configurer la classe de configuration : Config.java
+	2) Lancer le server : Server.java
+	3) Lancer le jeu : Play.java
+
+Description :
+
+Le jeu simule la création des joueur en multithread gràce à un Semaphore.
+Il peut être lancé a distance en configurant le fichier Config.java mais il ne peut être lancé que par une machine en même temps.
+
+Pour que le jeu se termine plus vite, j'ai supposé que tout les joueur n'effectuent pas une tentative de bombardement à la même case.
+
+Des tests unitaires on été fait. Pour les lancer, exécuter le fichier Main.java dans le package des tests.
+
+Tests personnels :
+
+Avec une grille de 50*50, 50 Bateaux et 250 joueurs le jeu fonctionne correctement.
+Avec une grille de 100*100, 100 Bateaux et 100 joueurs je commence à avoir des joueurs qui jouent avant d'autres après 5minutes de jeu. Après une 10ène de minutes, le jeu commence à buger et fini par planter avec une exception : java.net.SocketException: Connection reset.
