@@ -10,67 +10,99 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
- * @author yvrenaud
+ * Communication
+ * @author fsalles
  */
 public class Communication {
 
-    private ObjectOutputStream sortie;
-    private ObjectInputStream entree;
-    private String hote;
+    private static Communication instance;
+    
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+    private String host;
     private int port;
     private Socket socket;
     private ServerSocket serverSocket;
 
-    public Communication(String host, int port) throws SocketException {
-        this.hote = host;
+    public Communication(String host, int port) throws SocketException
+    {
+        this.host = host;
         this.port = port;
         this.socket = null;
     }
 
-    public Communication(int port) throws IOException {
+    public Communication(int port) throws IOException
+    {
         this.port = port;
         this.socket = null;
         this.serverSocket = new ServerSocket(this.port);
     }
 
-    public Message recevoirMessage() throws IOException, ClassNotFoundException {
-        Message m = (Message) this.entree.readObject();
-        return m;
+    public Game getGame() throws IOException, ClassNotFoundException
+    {
+        return (Game) this.input.readObject();
     }
 
-    public void envoyerMessage(Message msg) throws IOException {
-        this.sortie.writeObject(msg);
+    public void setGame(Game game) throws IOException
+    {
+        this.output.writeObject(game);
     }
 
-    public void connecter() throws IOException {
-        this.socket = new Socket(this.hote, this.port);
-        // Initialiser les entrées sorties client
-        this.sortie = new ObjectOutputStream(this.socket.getOutputStream());
-        this.entree = new ObjectInputStream(this.socket.getInputStream());
+    public void logOn() throws IOException
+    {
+        this.socket = new Socket(this.host, this.port);
+        // Initialiser les entrées outputs client
+        this.output = new ObjectOutputStream(this.socket.getOutputStream());
+        this.input = new ObjectInputStream(this.socket.getInputStream());
     }
 
-    public void deconnecter() throws IOException {
+    public void disconnect() throws IOException
+    {
         this.socket.close();
-        if(this.serverSocket != null){
+        if (this.serverSocket != null)
+        {
             this.serverSocket.close();
         }
     }
 
-    public void ecouter(ServerSocket s) throws IOException {
+    public void listen(ServerSocket s) throws IOException
+    {
         this.socket = serverSocket.accept();
-        // Initialiser l'entrée sortie du server
-        this.sortie = new ObjectOutputStream(this.socket.getOutputStream());
-        this.entree = new ObjectInputStream(this.socket.getInputStream());
+        // Initialiser l'entrée output du server
+        this.output = new ObjectOutputStream(this.socket.getOutputStream());
+        this.input = new ObjectInputStream(this.socket.getInputStream());
     }
 
-    public ServerSocket getServerSocket() {
+    public ServerSocket getServerSocket()
+    {
         return this.serverSocket;
     }
 
-    public Socket getSocket() {
+    public Socket getSocket()
+    {
         return this.socket;
+    }
+    
+    public final static Communication getInstance() {
+        Communication result = instance;
+        // 1er verif sans verrou
+        if (result == null) { 
+            synchronized (Communication.class) {
+                result = instance;
+                // 2eme verif, apres acquisition du verrou
+                if (result == null) {
+                    try {
+                        result = instance = new Communication(Config.HOST, Config.PORT);
+                    } catch (SocketException ex) {
+                        Logger.getLogger(Communication.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        return instance;
     }
 }

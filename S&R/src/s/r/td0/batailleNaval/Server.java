@@ -6,69 +6,64 @@ package s.r.td0.batailleNaval;
 
 /**
  *
- * @author yvrenaud
+ * @author fsalles
  * 1. Envoie DEBUT PARIE
  * 2. ENVOI NB BATEAUX SUR LE PLATEAU
  * 3. ENVOI TOUCHER OU PAS TOUCHER
  */
 public class Server {
-
-    public static int BATEAUX = Plateau.TAILLE;
     
-    public static void main(String args[]) throws Exception {
-
-        Plateau p = new Plateau(BATEAUX);
-        
+    public static final int SIZE = 10;
+    public static void main(String args[]) throws Exception
+    {    
         Communication c = new Communication(9876);
-        c.ecouter(c.getServerSocket());
+        c.listen(c.getServerSocket());
         
         System.out.println("Serveur en attente sur le port " + c.getServerSocket().getLocalPort());
-        Message m = new Message(p.getNbBateaux());
-        m.setAuRevoir("NON");
-        m.setCombien(BATEAUX);
-        c.envoyerMessage(m);
-        m = c.recevoirMessage();
+        Game game = new Game(SIZE, SIZE);
+        c.setGame(game);
+        game = c.getGame();
         
-        while (m.getAuRevoir().equals("NON"))
+        while (!game.isFinish())
         {
             // RECEPTION DE LA DEMANDE DU CLIENT
-            System.out.println("Le client demande X : " + m.getPosX() + " Y : " + m.getPosY());
+            System.out.println("Le client demande "+game.getAttempt());
 
             // vérifie la présence d'un bateau
-            if (p.contientNavire(m.getPosX(), m.getPosY()))
+            if (game.getBoard().containsBoatSinking(game.getAttempt()))
             {
-                m.setText("Toucher");
-                p.bombarde(m.getPosX(), m.getPosY());
+                game.setMessage("Toucher");
             }
             else
             {
-                m.setText("Pas Toucher");;
+                game.setMessage("Pas Toucher");;
             }
-            c.envoyerMessage(m);
-            m = c.recevoirMessage();
+            game.getBoard().bombing(game.getAttempt());
+            
+            c.setGame(game);
+            game = c.getGame();
             // Message d'actualisation du nombre de bateaux sur le plateau
-            m.setText("Bateaux restants : ");
-            m.setCombien(p.getNbBateaux());
-            c.envoyerMessage(m);
+            game.setNbBoat(game.getBoard().getNumberBoat());
+            game.setMessage("Bateaux restants : "+game.getNbBoat());
+            c.setGame(game);
             
             // Recoit le message OUI ou NON
-            m = c.recevoirMessage();
-            System.out.println(m.getAuRevoir());
+            game = c.getGame();
         }
 
 
         // Si il n'y a plus de bateaux sur le plateau il a gagné
-        if (m.getCombien() == 0)
+        if (game.getNbBoat() == 0)
         {
-            m.setText("BRAVO IL N'Y A PLUS DE BATEAUX SUR LE PLATEAUX");
+            game.setMessage("BRAVO IL N'Y A PLUS DE BATEAUX SUR LE PLATEAUX");
         }
         else
         {
-            m.setText("T'ES NUL");
+            game.setMessage("T'ES NUL");
         }
         
         // ENVOI DU MESSAGE DE FIN
-        c.envoyerMessage(m);
-        c.deconnecter();
+        c.setGame(game);
+        c.disconnect();
     }
 }
