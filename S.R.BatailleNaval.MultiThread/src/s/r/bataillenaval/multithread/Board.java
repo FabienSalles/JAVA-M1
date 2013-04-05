@@ -25,23 +25,17 @@ public class Board implements Serializable
     private int numberSunkenShip;
     
     /**
-     * Size of the grid
-     */
-    private Integer size;
-    
-    /**
      * Instance of the board for the singleton
      */
     private static Board instance;
     
     /**
-     * Initialize the gameboard with the number of boat sinking in parameter
+     * Initialize the gameboard with the number of boat sinking and size of the grid
      */
-    public Board()
+    private Board()
     {
-        this.size = Config.GRID_SIZE;
         this.numberBoat = Config.NB_BOAT;
-        this.grid = new long[this.size][this.size];
+        this.grid = new long[Config.GRID_SIZE][Config.GRID_SIZE];
         this.numberSunkenShip = 0;
         int x,y;
         Random random = new Random();
@@ -49,12 +43,12 @@ public class Board implements Serializable
         
         for (int i=0;i<this.numberBoat;i++)
         {
-            x = random.nextInt(this.size);
-            y = random.nextInt(this.size);
+            x = random.nextInt(Config.GRID_SIZE);
+            y = random.nextInt(Config.GRID_SIZE);
             while (this.grid[x][y] == 1)
             {
-                x = random.nextInt(this.size);
-                y = random.nextInt(this.size);
+                x = random.nextInt(Config.GRID_SIZE);
+                y = random.nextInt(Config.GRID_SIZE);
             }
             this.grid[x][y] = 1;
         }

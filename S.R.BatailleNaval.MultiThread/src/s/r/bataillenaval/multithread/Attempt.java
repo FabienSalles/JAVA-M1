@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package s.r.bataillenaval.multithread;
 
 import java.io.Serializable;
 
 /**
- *
+ * Attempt class to manipulate coordinates
  * @author fsalles
  */
 public class Attempt implements Serializable

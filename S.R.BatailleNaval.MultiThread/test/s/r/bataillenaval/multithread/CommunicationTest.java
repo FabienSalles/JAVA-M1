@@ -27,7 +27,7 @@ public class CommunicationTest {
     public CommunicationTest() throws IOException {
         serverConnection = Communication.getServerInstance();
         serverConnection.listen(serverConnection.getServerSocket());
-        guestConnection = Communication.getGuestInstance();
+        guestConnection = Communication.getPlayerInstance();
         guestConnection.logOn();
         game = Game.getInstance();
     }
@@ -58,7 +58,7 @@ public class CommunicationTest {
      */
     @Test
     public void testGetGuestInstance() {
-        Communication testGuestInstance = Communication.getGuestInstance();
+        Communication testGuestInstance = Communication.getPlayerInstance();
         assertEquals(guestConnection, testGuestInstance);
     }
 

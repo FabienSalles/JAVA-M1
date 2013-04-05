@@ -5,8 +5,13 @@
 package s.r.bataillenaval.multithread;
 
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import s.r.bataillenaval.multithread.Communication;
+import s.r.bataillenaval.multithread.Config;
+import s.r.bataillenaval.multithread.Game;
 
 /**
  * @author fsalles
@@ -16,6 +21,7 @@ public class Server {
     private Communication com;
     private Game game;
     private static Server instance;
+    private final static Lock lock = new ReentrantLock();
     
     private Server()
     {
@@ -28,6 +34,28 @@ public class Server {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public Communication getCom() {
+        return com;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public static Lock getLock() {
+        return lock;
+    }
+
+    
+    public void setCom(Communication com) {
+        this.com = com;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+    
     
     public final static Server getInstance() {
         Server result = instance;
@@ -40,40 +68,5 @@ public class Server {
             }
         }
         return instance;
-    }
-    
-    public static void main(String args[]) throws Exception
-    {           
-        Server server = Server.getInstance();
-        
-        do
-        {
-            server.com.setGame(server.game);
-            server.game = server.com.getGame();
-            // RECEPTION DE LA DEMANDE DU CLIENT
-            System.out.println("Le client demande "+server.game.getAttempt());
-
-            // vérifie la présence d'un bateau
-            if (server.game.getBoard().containsBoatSinking(server.game.getAttempt()))
-            {
-                server.game.setMessage("Toucher");
-            }
-            else
-            {
-                server.game.setMessage("Pas Toucher");
-            }
-            server.game.getBoard().bombing(server.game.getAttempt());
-            
-            // for check secondly if the game is finish
-            server.com.setGame(server.game);
-            server.game = server.com.getGame();
-        }
-        while (!server.game.isFinish());
-        
-        // For guests finish the game properly
-        for(int i = 1; i< Config.NB_GUEST; i++)
-        {
-            server.com.setGame(server.game);
-        }
     }
 }

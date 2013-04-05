@@ -18,19 +18,19 @@ public class Config {
      */
     public static final int PORT = 9876;
     /**
-     * Maximum attempts per guest
+     * Maximum attempts per player
      */
     public static final Integer MAX_NUMBER_STROKES = 100;
     /**
      * Size of the grid ex 10 = 10*10 => 100 boxes
      */
-    public static final Integer GRID_SIZE = 50;
+    public static final Integer GRID_SIZE = 20;
     /**
      * Number of boat in the Board
      */
-    public static final Integer NB_BOAT = 50;
+    public static final Integer NB_BOAT = 20;
     /**
-     * Number of guest
+     * Number of player
      */
-    public static final Integer NB_GUEST = 250;
+    public static final Integer NB_GUEST = 50;
 }

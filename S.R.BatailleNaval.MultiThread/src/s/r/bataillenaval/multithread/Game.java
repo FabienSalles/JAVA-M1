@@ -9,7 +9,7 @@ public class Game implements Serializable{
 
     private boolean isFinish;
     private Attempt attempt;
-    private String message;
+    private boolean hit;
     private Board board;
     private static Game instance;
     
@@ -18,27 +18,44 @@ public class Game implements Serializable{
      * @param size
      * @param nbBoat 
      */
-    public Game()
+    private Game()
     {
+        // initialize the single board for the game
         this.board = Board.getInstance();
         this.isFinish = false;
     }
 
+    /**
+     * Check if the game is finish
+     * @return Boolean true or false
+     */
     public boolean isFinish()
     {
         return this.isFinish;
     }
 
-    public String getMessage()
+    /**
+     * Get hit
+     * @return boolean hit
+     */
+    public boolean getHit()
     {
-        return message;
+        return hit;
     }
 
+    /**
+     * Get attempt
+     * @return Attempt attempt
+     */
     public Attempt getAttempt()
     {
         return attempt;
     }
     
+    /**
+     * Get boardgame
+     * @return Board board
+     */
     public Board getBoard()
     {
         return board;
@@ -49,25 +66,37 @@ public class Game implements Serializable{
         return serialVersionUID;
     }
 
+    /**
+     * Set value of isFinish propertie
+     * @param isFinish 
+     */
     public void setIsFinish(boolean isFinish)
     {
         this.isFinish = isFinish;
     }
 
-    public void setMessage(String message)
+    /**
+     * set value of hit propertie
+     * @param hit 
+     */
+    public void setHit(boolean hit)
     {
-        this.message = message;
+        this.hit = hit;
     }
 
+    /**
+     * Set value of attempt propertie
+     * @param attempt 
+     */
     public void setAttempt(Attempt attempt)
     {
         this.attempt = attempt;
     }
     
-    public String displayRequest(String request){
-        return "Client demande " + request;
-    }
-    
+    /**
+     * static method for singleton
+     * @return 
+     */
     public final static Game getInstance() {
         Game result = instance;
         if (result == null) { // 1er verif sans verrou

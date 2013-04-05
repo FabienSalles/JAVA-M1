@@ -29,12 +29,12 @@ public class Communication {
     private ServerSocket serverSocket;
 
     /**
-     * Constructor for Guest connection
+     * Constructor for Player connection
      * @param host
      * @param port
      * @throws SocketException 
      */
-    public Communication(String host, int port) throws SocketException
+    private Communication(String host, int port) throws SocketException
     {
         this.host = host;
         this.port = port;
@@ -46,7 +46,7 @@ public class Communication {
      * @param port
      * @throws IOException 
      */
-    public Communication(int port) throws IOException
+    private Communication(int port) throws IOException
     {
         this.port = port;
         this.socket = null;
@@ -75,7 +75,7 @@ public class Communication {
     }
 
     /**
-     * Connection for Guests
+     * Connection for Players
      * @throws IOException 
      */
     public void logOn() throws IOException
@@ -132,10 +132,10 @@ public class Communication {
     
     /**
      * For Singleton of the Communication class
-     * Constructor for guest connection
+     * Constructor for player connection
      * @return Connection
      */
-    public final static Communication getGuestInstance() {
+    public final static Communication getPlayerInstance() {
         Communication result = instance;
         // 1er verif sans verrou
         if (result == null) { 
