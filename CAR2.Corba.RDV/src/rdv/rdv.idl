@@ -1,0 +1,21 @@
+module rdv{
+
+    interface Participant{
+        void rdvTermine(in string nom);
+    };
+
+    interface RdvItf{
+        oneway void rejoindre(in rdv::Participant participant);
+        string getNom();
+        long getNombre();
+    };
+
+    typedef sequence<rdv::RdvItf> rdvs;
+
+    interface FactRdv{
+        rdv::RdvItf creer(in long nombre, in string nom);
+        rdv::RdvItf chercher(in string nom);
+        rdv::rdvs   getRdvs();
+        long getNb();
+    };
+};

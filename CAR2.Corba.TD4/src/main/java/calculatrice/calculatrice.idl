@@ -1,0 +1,10 @@
+module calculatrice {
+    exception divZero{string diviseur;};
+    exception badParam{string p;};
+    interface Calculatrice {
+        any addition(in any nb1, in any nb2) raises (badParam);
+        any sub(in any nb1, in any nb2) raises (badParam);
+        any mult(in any nb1, in any nb2) raises (badParam);
+        any div(in any nb1, in any nb2) raises (badParam, divZero);
+    };
+};

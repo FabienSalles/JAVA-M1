@@ -1,0 +1,11 @@
+interface TH
+{
+typedef struct Personne
+{
+string nom ;
+string prenom ;
+} coureur ;
+typedef sequence <coureur> participants ;
+void inscrire_coureur(in coureur C) ;
+void liste_des_coureurs(out participants coureurs) ;
+} ;

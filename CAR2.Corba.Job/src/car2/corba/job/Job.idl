@@ -1,0 +1,37 @@
+module car2
+{
+    module corba
+    {
+        module job
+        {
+            typedef struct Job
+            {
+                    string poste ;
+                    double paie ;
+            } JobData;
+
+            interface JobProcess
+            {
+                    void run();
+            };
+
+            module JobFact{
+                interface JobFactory
+                {
+                    car2::corba::job::JobProcess createJob(in car2::corba::job::JobData jd);
+                };
+            };
+
+            module JobFactoryLB
+            {
+                interface FactoryLB
+                {
+                    car2::corba::job::JobProcess createJob(in car2::corba::job::JobData jd);
+                    void register(in car2::corba::job::JobFact::JobFactory jf);
+                    void unregister(in car2::corba::job::JobFact::JobFactory jf);
+                };   
+            };
+        };
+    };
+	
+};

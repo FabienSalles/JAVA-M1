@@ -1,0 +1,51 @@
+Optimisation combinatoire : Sac à dos
+
+Le projet a été réalisé sur NetBeans
+
+Les caractèristique utilisées sont :
+ instance       : 4
+ nombre d'objet : 300
+ poids max      : 50
+ profits max    : 50
+ volumes max    : 100
+
+J'ai implémenté 3 heuristique :
+
+H1 : util / (poids + volumes)
+H2 : util / volumes
+H3 : util / poids
+
+Celles-ci peuvent être selectionnées en modifiant la valeur de la variable statique Heuristique de la classe Objet :
+ 1 pour H1
+ 2 pour H2
+ 3 pour H3
+
+Voici le résultat obtenu sur les 2 première heuristiques :
+
+########################             ########################
+     Heuristique 1                         Heuristique 2
+########################             ########################
+
+Instance 1                           Instance 1
+valeur : 7119                        valeur : 7087
+temps : 12 millisec                  temps : 2 millisec
+
+Instance 2                           Instance 2
+valeur : 4843                        valeur : 4347
+temps : 127 millisec                 temps : 2 millisec
+
+Instance 3                           Instance 3
+valeur : 7138                        valeur : 6946
+temps : 4 millisec                   temps : 1 millisec
+
+Instance 4                           Instance 4
+valeur : 1287                        valeur : 1061
+temps : 28 millisec                  temps : 113 millisec
+
+On remarque pour pour les 4 instances, la valeur est plus importante dans la première que dans la seconde.
+Le temps est également plus important.
+
+Remarque sur le programme : 
+
+J'ai des doutes concernant le calcul du temps d'exécution des solution par instance. Je ne suis pas sûr que celles-ci soit vrai.
+Le programme rencontre souvent des erreurs : java.lang.NullPointerException sur les fonctions getPoids(), getVolumes() et getUtilite().
